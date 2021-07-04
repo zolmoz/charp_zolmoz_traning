@@ -29,6 +29,17 @@ namespace adressbook_web_tests
             return this;
         }
 
+        public GroupHelper Modify(int v, GroupData newData)
+        {
+            applicationManager.Navigate.GoToGroupsPage();
+            SelectGroup(v);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
         public GroupHelper Remove(int p)
         {
             applicationManager.Navigate.GoToGroupsPage();
@@ -37,6 +48,20 @@ namespace adressbook_web_tests
             ReturnToGroupsPage();
             return this;
         }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+    
 
         public GroupHelper ReturnToGroupsPage()
         {

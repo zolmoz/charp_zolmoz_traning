@@ -13,6 +13,7 @@ namespace adressbook_web_tests
     {
         protected IWebDriver driver;
         protected string baseURL;
+       
 
         protected LoginHelper loginHelper;
         protected NavigationHelper navigationHelper;
@@ -53,6 +54,9 @@ namespace adressbook_web_tests
         }
 
         
+
+
+
         public LoginHelper Auth
         {
             get

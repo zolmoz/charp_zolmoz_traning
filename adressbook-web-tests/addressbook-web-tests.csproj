@@ -65,14 +65,17 @@
     <Compile Include="ApplicationManager\ContactHelper.cs" />
     <Compile Include="Model\GroupData.cs" />
     <Compile Include="ApplicationManager\GroupHelper.cs" />
-    <Compile Include="Tests\GroupRemovalTest.cs" />
+    <Compile Include="Tests\ContactTests\ContactModificationTests.cs" />
+    <Compile Include="Tests\ContactTests\ContactRemovalTests.cs" />
+    <Compile Include="Tests\GroupTests\GroupModificationTests.cs" />
+    <Compile Include="Tests\GroupTests\GroupRemovalTest.cs" />
     <Compile Include="ApplicationManager\HelperBase.cs" />
     <Compile Include="ApplicationManager\LoginHelper.cs" />
     <Compile Include="ApplicationManager\NavigationHelper.cs" />
     <Compile Include="Tests\TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\GroupCreationtest.cs" />
-    <Compile Include="Tests\ContactCreationTests.cs" />
+    <Compile Include="Tests\GroupTests\GroupCreationtests.cs" />
+    <Compile Include="Tests\ContactTests\ContactCreationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />
