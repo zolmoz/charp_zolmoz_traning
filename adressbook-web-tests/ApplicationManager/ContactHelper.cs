@@ -11,32 +11,41 @@ namespace adressbook_web_tests
 {
     public class ContactHelper : HelperBase
     {
-
         
-
-
-        public ContactHelper(IWebDriver driver) : base(driver)
+        public ContactHelper(ApplicationManager applicationManager) : base(applicationManager)
         {
-            
-
         }
-        public void InitNewContactCreation()
+
+
+        public ContactHelper Create(ContactData contact)
+        {
+            InitNewContactCreation();
+            FullContactPage(contact);
+            SubmitContactCreation();
+            applicationManager.Navigate.ReturnToHomepage();
+            applicationManager.Auth.Logout();
+            return this;
+        }
+
+
+
+        public ContactHelper InitNewContactCreation()
         {
             //Init new contact
             driver.FindElement(By.LinkText("add new")).Click();
+            return this;
         }
-        public void SubmitContactCreation()
+
+
+        public ContactHelper SubmitContactCreation()
         {
             //submit creation contact
             driver.FindElement(By.XPath("//input[@value='Enter']")).Click();
+            return this;
         }
 
 
-
-
-
-
-        public void FullContactPage(ContactData contactData)
+        public ContactHelper FullContactPage(ContactData contactData)
         {
             //full contact page
             driver.FindElement(By.Name("firstname")).Click();
@@ -114,6 +123,7 @@ namespace adressbook_web_tests
             driver.FindElement(By.Name("notes")).Click();
             driver.FindElement(By.Name("notes")).Clear();
             driver.FindElement(By.Name("notes")).SendKeys(contactData.Notes);
+            return this;
         }
     }
 }

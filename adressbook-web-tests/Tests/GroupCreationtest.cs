@@ -14,19 +14,27 @@ namespace adressbook_web_tests
         [Test]
         public void GroupCreationTest()
         {
-            navigationHelper.OpenHomePage();
-            loginHelper.Login(new AccountData("admin","secret"));
-            navigationHelper.GoToGroupsPage();
-            groupHelper.InitGroupCreation();
+
             GroupData group = new GroupData("name_1");
             group.Header = "test";
             group.Footer = "test";
-            groupHelper.FillGroupForm(group);
-            groupHelper.SubmitGroupCreation();
-            groupHelper.ReturnToGroupsPage();
-            loginHelper.Logout();
+            applicationManager.Groups.Create(group);
+            applicationManager.Auth.Logout();
 
         }
-     
-     }
+
+
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+ 
+            GroupData group = new GroupData("");
+            group.Header = "";
+            group.Footer = "";
+            applicationManager.Groups.Create(group);
+            applicationManager.Auth.Logout();
+
+        }
+
+    }
 }
