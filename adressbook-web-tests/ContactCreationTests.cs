@@ -15,9 +15,9 @@ namespace adressbook_web_tests
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            InitNewContactCreation();
+            navigationHelper.OpenHomePage();
+            loginHelper.Login(new AccountData("admin", "secret"));
+            contactHelper.InitNewContactCreation();
             //Заполнение данных для создания контакта
             ContactData contact = new ContactData("Ivan");
             contact.Middlename = "Ivanovich";
@@ -43,10 +43,10 @@ namespace adressbook_web_tests
             contact.Address2 = " ";
             contact.Phone2 = " ";
             contact.Notes = "test";
-            FullContactPage(contact);
-            SubmitContactCreation();
-            ReturnToHomepage();
-            Logout();
+            contactHelper.FullContactPage(contact);
+            contactHelper.SubmitContactCreation();
+            navigationHelper.ReturnToHomepage();
+            loginHelper.Logout();
 
         }
   
