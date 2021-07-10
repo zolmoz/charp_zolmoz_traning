@@ -17,22 +17,16 @@ namespace adressbook_web_tests
 
 
         [SetUp]
-        protected void SetupTest()
+        protected void SetupApplicationManager()
         {
               
-            applicationManager = new ApplicationManager();
-            applicationManager.Navigate.OpenHomePage();
-            applicationManager.Auth.Login(new AccountData("admin", "secret"));
+            applicationManager =  ApplicationManager.GetInstance();
+           
         }
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            applicationManager.Stop();
-        }
 
-        
-        
+
+
 
 
 

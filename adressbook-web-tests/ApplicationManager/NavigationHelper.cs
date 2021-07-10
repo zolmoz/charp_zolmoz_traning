@@ -23,17 +23,29 @@ namespace adressbook_web_tests
 
         public void OpenHomePage()
         {
+            if (driver.Url == baseURL )
+            {
+                return;
+            }
             driver.Navigate().GoToUrl(baseURL);
         }
 
         public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "/group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("groups")).Click();
         }
 
         public void ReturnToHomepage()
         {
-            //return to homepage
+            if (driver.Url == baseURL + "/edit.php")
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("home page")).Click();
         }
     }

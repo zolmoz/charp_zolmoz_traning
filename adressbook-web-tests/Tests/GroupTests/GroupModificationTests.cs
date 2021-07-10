@@ -4,10 +4,11 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 
+
 namespace adressbook_web_tests
 {
     [TestFixture]
-    public class GroupModificationTests : TestBase
+    public class GroupModificationTests : AuthTestBase
     {
 
 
@@ -15,10 +16,14 @@ namespace adressbook_web_tests
         public void GroupModificationTest()
         {
 
-            GroupData newData = new GroupData("ttttt");
-            newData.Header = "tttt";
-            newData.Footer = "tttt";
-            applicationManager.Groups.Modify(1, newData);
+          
+
+                GroupData newData = new GroupData("ttttt");
+                newData.Header = null;
+                newData.Footer = null;
+                applicationManager.Groups.Modify(1, newData);
+            
+       
             
 
         }

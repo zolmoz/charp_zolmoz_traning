@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace adressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {
         
         [Test]
@@ -19,7 +19,7 @@ namespace adressbook_web_tests
             group.Header = "test";
             group.Footer = "test";
             applicationManager.Groups.Create(group);
-            applicationManager.Auth.Logout();
+            
 
         }
 
@@ -32,7 +32,7 @@ namespace adressbook_web_tests
             group.Header = "";
             group.Footer = "";
             applicationManager.Groups.Create(group);
-            applicationManager.Auth.Logout();
+           
 
         }
 
