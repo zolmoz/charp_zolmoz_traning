@@ -15,16 +15,16 @@ namespace adressbook_web_tests
         [Test]
         public void GroupModificationTest()
         {
+            GroupData newData = new GroupData("ttttt");
+            newData.Header = null;
+            newData.Footer = null;
 
-          
-
-                GroupData newData = new GroupData("ttttt");
-                newData.Header = null;
-                newData.Footer = null;
-                applicationManager.Groups.Modify(1, newData);
-            
-       
-            
+            applicationManager.Navigate.GoToGroupsPage();
+            if (!applicationManager.Groups.IsGroupExist())
+            {
+                applicationManager.Groups.Create(new GroupData("names"));
+            }
+            applicationManager.Groups.Modify(1, newData);
 
         }
 

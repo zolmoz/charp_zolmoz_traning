@@ -44,9 +44,10 @@ namespace adressbook_web_tests
         {
             if (driver.Url == baseURL + "/edit.php")
             {
+                driver.FindElement(By.LinkText("home page")).Click();
                 return;
             }
-            driver.FindElement(By.LinkText("home page")).Click();
+            OpenHomePage();
         }
     }
 }

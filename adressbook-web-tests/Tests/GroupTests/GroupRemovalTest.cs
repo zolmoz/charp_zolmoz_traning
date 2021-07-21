@@ -14,10 +14,16 @@ namespace adressbook_web_tests
 
         [Test]
         public void GroupRemovalTest()
-        {
-            applicationManager.Groups.Remove(1);
-     
-        }
+
+        { 
+            applicationManager.Navigate.GoToGroupsPage();
+            if (!applicationManager.Groups.IsGroupExist())
+            {
+                applicationManager.Groups.Create(new GroupData("names"));
+            }
+                applicationManager.Groups.Remove(1);
+
+            }
  
 
     }

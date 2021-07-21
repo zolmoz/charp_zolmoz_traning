@@ -86,6 +86,10 @@ namespace adressbook_web_tests
             return this;
         }
 
+        public bool IsContactExist()
+        {
+            return IsElementPresent(By.Name("selected[]"));
+        }
 
         public ContactHelper InitNewContactCreation()
         {

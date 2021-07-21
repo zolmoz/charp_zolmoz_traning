@@ -62,7 +62,12 @@ namespace adressbook_web_tests
             return this;
         }
 
-    
+        public bool  IsGroupExist()
+        {
+            return IsElementPresent(By.Name("selected[]"));
+        }
+
+
 
         public GroupHelper ReturnToGroupsPage()
         {
@@ -95,8 +100,7 @@ namespace adressbook_web_tests
           
                 driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
                 return this;
-            
-           
+                  
 
             
         }
