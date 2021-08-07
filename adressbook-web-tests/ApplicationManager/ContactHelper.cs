@@ -19,21 +19,34 @@ namespace adressbook_web_tests
         {
         }
 
-        public List<ContactData> GetContactList()
-        {
-            List<ContactData> contacts = new List<ContactData>();
-            applicationManager.Navigate.OpenHomePage();
-            IList<IWebElement> elements = driver.FindElements(By.Name("entry"));
-            foreach (IWebElement element in elements)
-            {
+        private List<ContactData> contactCache = null;
 
-                IList<IWebElement> cells = element.FindElements(By.TagName("td"));
-                contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
-            }
-            return contacts;
+
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.Name("entry")).Count;
         }
 
-   
+        public List<ContactData> GetContactList()
+        {
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+                applicationManager.Navigate.OpenHomePage();
+                IList<IWebElement> elements = driver.FindElements(By.Name("entry"));
+                foreach (IWebElement element in elements)
+                {
+
+                    IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+                    contactCache.Add(new ContactData(cells[2].Text, cells[1].Text)
+                        {
+                        Id = element.FindElement(By.TagName("Input")).GetAttribute("id")
+                            });
+                }
+            }
+            return new List<ContactData>(contactCache);
+        }
+
 
         internal ContactHelper Modify(int v, ContactData updatecontact)
         {
@@ -88,6 +101,7 @@ namespace adressbook_web_tests
         {
            
             driver.SwitchTo().Alert().Accept();
+            contactCache = null;
             return this;
         }
 
@@ -95,12 +109,14 @@ namespace adressbook_web_tests
         {
            
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper SelectContact()
         {
             driver.FindElement(By.Name("selected[]")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -121,6 +137,7 @@ namespace adressbook_web_tests
         {
             //submit creation contact
             driver.FindElement(By.XPath("//input[@value='Enter']")).Click();
+            contactCache = null;
             return this;
         }
 

@@ -27,8 +27,11 @@ namespace adressbook_web_tests
             }
 
             List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
+            ContactData oldData = oldContacts[0];
 
             applicationManager.Contact.Modify(0,updatecontact);
+
+            Assert.AreEqual(oldContacts.Count , applicationManager.Contact.GetContactCount());
 
             List<ContactData> newContacts = applicationManager.Contact.GetContactList();
             oldContacts[0].Firstname = updatecontact.Firstname;
@@ -36,6 +39,16 @@ namespace adressbook_web_tests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(updatecontact.Firstname, contact.Firstname);
+                    Assert.AreEqual(updatecontact.Lastname, contact.Lastname);
+
+                }
+            }
         }
     }
 }

@@ -24,11 +24,24 @@ namespace adressbook_web_tests
 
             List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
 
+            ContactData toBeRemoved = oldContacts[0];
+
             applicationManager.Contact.Remove(0);
+
+            Assert.AreEqual(oldContacts.Count - 1, applicationManager.Contact.GetContactCount());
+
             List<ContactData> newContacts = applicationManager.Contact.GetContactList();
+
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
-        }
+
+           
+            foreach (ContactData contacts in newContacts)
+            {
+                Assert.AreNotEqual(contacts.Id, toBeRemoved.Id);
+            }
+
+}
 
     }
 }
