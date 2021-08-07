@@ -5,6 +5,7 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using System.Collections.Generic;
 using OpenQA.Selenium.Support.UI;
 
 
@@ -18,11 +19,27 @@ namespace adressbook_web_tests
         {
         }
 
-        internal ContactHelper Modify(ContactData updatecontact)
+        public List<ContactData> GetContactList()
         {
-            
+            List<ContactData> contacts = new List<ContactData>();
+            applicationManager.Navigate.OpenHomePage();
+            IList<IWebElement> elements = driver.FindElements(By.Name("entry"));
+            foreach (IWebElement element in elements)
+            {
+
+                IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+                contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
+            }
+            return contacts;
+        }
+
+   
+
+        internal ContactHelper Modify(int v, ContactData updatecontact)
+        {
+            SelectContact();
             InitContactModification();
-            FullContactPage(updatecontact);
+            ShortContactPage(updatecontact);
             ApproveEditContact();
             applicationManager.Navigate.ReturnToHomepage();
             
@@ -31,7 +48,7 @@ namespace adressbook_web_tests
 
         
 
-        public ContactHelper Remove()
+        public ContactHelper Remove(int p)
         {
             
             SelectContact();
@@ -45,8 +62,9 @@ namespace adressbook_web_tests
 
         public ContactHelper Create(ContactData contact)
         {
+            
             InitNewContactCreation();
-            FullContactPage(contact);
+            ShortContactPage(contact);
             SubmitContactCreation();
             applicationManager.Navigate.ReturnToHomepage();
             
@@ -144,5 +162,15 @@ namespace adressbook_web_tests
 
             return this;
         }
+
+
+        public ContactHelper ShortContactPage(ContactData contactData)
+        {
+            //full contact page
+            Type(By.Name("firstname"), contactData.Firstname);
+            Type(By.Name("lastname"), contactData.Lastname);
+            return this;
+        }
+
     }
 }

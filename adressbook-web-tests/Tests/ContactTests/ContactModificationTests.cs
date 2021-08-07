@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace adressbook_web_tests
 {
@@ -16,40 +17,25 @@ namespace adressbook_web_tests
         public void ContactModificationTest()
         {
 
-            ContactData updatecontact = new ContactData("1");
-            updatecontact.Middlename = "1";
-            updatecontact.Lastname = " 1";
-            updatecontact.Nickname = "1 ";
-            updatecontact.Title = " ";
-            updatecontact.Company = "1";
-            updatecontact.Address = "1 ";
-            updatecontact.Home = "1";
-            updatecontact.Mobile = "1";
-            updatecontact.Work = "1";
-            updatecontact.Fax = "1 ";
-            updatecontact.Email = " 1";
-            updatecontact.Email2 = "1 ";
-            updatecontact.Email3 = " 1";
-            updatecontact.Homepage = "1";
-            updatecontact.Bday = "1";
-            updatecontact.Bmonth = "June";
-            updatecontact.Byear = "1111";
-            updatecontact.Aday = "2";
-            updatecontact.Amonth = "June";
-            updatecontact.Ayear = "1111";
-            updatecontact.Address2 = "1 ";
-            updatecontact.Phone2 = " 1";
-            updatecontact.Notes = "1";
+            ContactData updatecontact = new ContactData("1","2");
+           
 
             applicationManager.Navigate.OpenHomePage();
             if (!applicationManager.Contact.IsContactExist())
             {
-                applicationManager.Contact.Create(new ContactData ("Julli", " ", "Apple","Lili"," " ,"HP","123 Main" , " "," ",
-                            "123456", " ", "test@test.ru"," "," ", " ","12", "April","1989", "24",
-                            "May","1999", "", "", "test"));
+                applicationManager.Contact.Create(new ContactData ("Julli",  "Apple"));
             }
-            //applicationManager.Navigate.ReturnToHomepage();
-            applicationManager.Contact.Modify(updatecontact);
+
+            List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
+
+            applicationManager.Contact.Modify(0,updatecontact);
+
+            List<ContactData> newContacts = applicationManager.Contact.GetContactList();
+            oldContacts[0].Firstname = updatecontact.Firstname;
+            oldContacts[0].Lastname = updatecontact.Lastname;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

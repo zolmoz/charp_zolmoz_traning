@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 
 namespace adressbook_web_tests
@@ -18,11 +19,15 @@ namespace adressbook_web_tests
             applicationManager.Navigate.OpenHomePage();
             if (!applicationManager.Contact.IsContactExist())
             {
-                applicationManager.Contact.Create(new ContactData("Julli", " ", "Apple", "Lili", " ", "HP", "123 Main", " ", " ",
-                            "123456", " ", "test@test.ru", " ", " ", " ", "12", "April", "1989", "24",
-                            "May", "1999", "", "", "test"));
+                applicationManager.Contact.Create(new ContactData("Julli", "Apple"));
             }
-            applicationManager.Contact.Remove();
+
+            List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
+
+            applicationManager.Contact.Remove(0);
+            List<ContactData> newContacts = applicationManager.Contact.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
     }

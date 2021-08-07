@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace adressbook_web_tests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
 
         private string firstname;
@@ -34,21 +34,63 @@ namespace adressbook_web_tests
         private string phone2;
         private string notes;
 
+        public bool Equals(ContactData other)
+        {
+            
+        if (Object.ReferenceEquals(other, null))
+        {
+            return false;
+        }
+        if (Object.ReferenceEquals(firstname, other.firstname))
+        {
+            return true;
+        }
+        if (Object.ReferenceEquals(lastname, other.lastname))
+        {
+            return true;
+        }
+        return Firstname == other.Firstname && Lastname == other.Lastname;
+            
+        }
 
+        public  int GetHashCode(string firstname, string lastname)
+        {
+            return GetHashCode(firstname, lastname);
+        }
+
+        public override string ToString()
+        {
+            return "full name=" + Firstname + Lastname; 
+        }
+
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+         
+                if (lastname.CompareTo(other.lastname) == 0)
+                {
+                 
+                    return firstname.CompareTo(other.firstname);
+                }
+         
+            return lastname.CompareTo(other.lastname);
+        }
         public ContactData(string firstname)
         {
             this.firstname = firstname;
 
         }
-        public ContactData(string firstname, string middlename, string lastname, string nickname)
+        public ContactData(string firstname, string lastname)
         {
             this.firstname = firstname;
-            this.middlename = middlename;
             this.lastname = lastname;
-            this.nickname = nickname;
+ 
         }
 
-        public ContactData(string firstname, string middlename, string lastname, string nickname, string title, string company, string address, string home, string mobile,
+       public ContactData(string firstname, string middlename, string lastname, string nickname, string title, string company, string address, string home, string mobile,
                             string work, string fax, string  email, string email2, string email3, string homepage, string bday, string bmonth, string byear, string aday,
                             string amonth, string ayear, string address2, string phone2, string notes )
         {

@@ -18,6 +18,19 @@ namespace adressbook_web_tests
               
         }
 
+        public  List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            applicationManager.Navigate.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+               
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
+        }
+            
 
         public GroupHelper Create(GroupData group)
         {
@@ -98,7 +111,7 @@ namespace adressbook_web_tests
         public GroupHelper SelectGroup(int index)
         {
           
-                driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+                driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index + 1 ) + "]/input")).Click();
                 return this;
                   
 
