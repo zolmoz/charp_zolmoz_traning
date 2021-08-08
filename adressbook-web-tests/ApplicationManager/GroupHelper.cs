@@ -11,11 +11,11 @@ namespace adressbook_web_tests
 {
     public class GroupHelper : HelperBase
     {
-             
+
 
         public GroupHelper(ApplicationManager applicationManager) : base(applicationManager)
         {
-              
+
         }
 
         private List<GroupData> groupCache = null;
@@ -23,30 +23,41 @@ namespace adressbook_web_tests
 
         public int GetGroupCount()
         {
-           return driver.FindElements(By.CssSelector("span.group")).Count;
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
-        public  List<GroupData> GetGroupList()
-        { 
-        if (groupCache == null)
+        public List<GroupData> GetGroupList()
+        {
+            if (groupCache == null)
             {
-            groupCache = new List<GroupData>();
-            applicationManager.Navigate.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            foreach (IWebElement element in elements)
-            {
-
-                    groupCache.Add(new GroupData(element.Text)
+                groupCache = new List<GroupData>();
+                applicationManager.Navigate.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCache.Add(new GroupData(null)
                     {
                         Id = element.FindElement(By.TagName("Input")).GetAttribute("value")
                     });
+                }
+                string allGroupNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+                string[] parts = allGroupNames.Split('\n');
+                int shift = groupCache.Count - parts.Length;
+                for (int i = 0; i < groupCache.Count; i++)
+                {
+                    if (i < shift)
+                    {
+                        groupCache[i].Name = "";
+                    }
+                    else
+                    {
+                        groupCache[i].Name = parts[i - shift].Trim();
+                    }
+                }
             }
-                
-            }
-         
             return new List<GroupData>(groupCache);
         }
-            
+
 
         public GroupHelper Create(GroupData group)
         {
@@ -67,7 +78,6 @@ namespace adressbook_web_tests
             SubmitGroupModification();
             ReturnToGroupsPage();
             return this;
-           
         }
 
         public GroupHelper Remove(int p)
@@ -92,7 +102,7 @@ namespace adressbook_web_tests
             return this;
         }
 
-        public bool  IsGroupExist()
+        public bool IsGroupExist()
         {
             return IsElementPresent(By.Name("selected[]"));
         }
@@ -129,24 +139,18 @@ namespace adressbook_web_tests
 
         public GroupHelper SelectGroup(int index)
         {
-          
-                driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index + 1 ) + "]/input")).Click();
-                return this;
-                  
-
-            
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index + 1) + "]/input")).Click();
+            return this;
         }
 
         public GroupHelper FillGroupForm(GroupData groupData)
         {
-          
             Type(By.Name("group_name"), groupData.Name);
             Type(By.Name("group_header"), groupData.Header);
             Type(By.Name("group_footer"), groupData.Footer);
-
             return this;
         }
 
-       
+
     }
 }

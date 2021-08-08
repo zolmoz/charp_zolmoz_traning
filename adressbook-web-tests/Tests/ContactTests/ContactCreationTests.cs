@@ -17,8 +17,14 @@ namespace adressbook_web_tests
         public void ContactCreationTest()
         {
 
-            ContactData contact = new ContactData("Ivan", "Ivanov");
-          
+            ContactData contact = new ContactData("Ivan");
+            contact.Lastname = "Ivanov";
+            contact.Address = "123 Maple str";
+            contact.Home = "1234567";
+            contact.Mobile = "987654";
+            contact.Work = "3214589";
+            contact.Fax = " 258963";
+
             List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
 
             applicationManager.Contact.Create(contact);
@@ -38,7 +44,7 @@ namespace adressbook_web_tests
         public void EmptyContactCreationTest()
         {
                       
-            ContactData contact = new ContactData("", "");
+            ContactData contact = new ContactData("", "", "", "", "", "");
 
             List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
 

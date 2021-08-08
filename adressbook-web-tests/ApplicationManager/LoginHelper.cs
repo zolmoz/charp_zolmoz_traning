@@ -12,10 +12,10 @@ namespace adressbook_web_tests
 {
     public class LoginHelper : HelperBase
     {
-        
-        public LoginHelper(ApplicationManager applicationManager ) : base(applicationManager)
+
+        public LoginHelper(ApplicationManager applicationManager) : base(applicationManager)
         {
-            
+
 
         }
         public void Login(AccountData account)
@@ -33,9 +33,9 @@ namespace adressbook_web_tests
             Type(By.Name("pass"), account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
-            
 
-       
+
+
 
         public void Logout()
         {
@@ -45,22 +45,26 @@ namespace adressbook_web_tests
                 applicationManager.Navigate.OpenHomePage();
 
             }
-            
+
         }
 
         public bool IsLoggeIn()
         {
             return IsElementPresent(By.Name("logout"));
-            
+
         }
         public bool IsLoggeInAccount(AccountData account)
         {
             return IsLoggeIn()
-                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
-                    == "(" + account.Username + ")";
+                && GetLogetUserName() == account.Username;
+
         }
 
-       
+        public string GetLogetUserName()
+        {
+            string text = driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text;
+            return text.Substring(1, text.Length - 2);
 
+        }
     }
 }

@@ -19,6 +19,27 @@ namespace adressbook_web_tests
         {
         }
 
+        public ContactData GetContactInformationFromTable(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            applicationManager.Navigate.OpenHomePage();
+            InitContactModification(0);
+            string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+
+            new ContactData(firstname, lastname, address,homePhone,mobilePhone,workPhone);
+
+            
+        }
+
         private List<ContactData> contactCache = null;
 
 
@@ -51,7 +72,7 @@ namespace adressbook_web_tests
         internal ContactHelper Modify(int v, ContactData updatecontact)
         {
             SelectContact();
-            InitContactModification();
+            InitContactModification(0);
             ShortContactPage(updatecontact);
             ApproveEditContact();
             applicationManager.Navigate.ReturnToHomepage();
@@ -84,10 +105,12 @@ namespace adressbook_web_tests
             return this;
         }
 
-        public ContactHelper InitContactModification()
+        public ContactHelper InitContactModification(int index)
         {
-           
-            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
+
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
             return this;
         }
 
@@ -186,6 +209,10 @@ namespace adressbook_web_tests
             //full contact page
             Type(By.Name("firstname"), contactData.Firstname);
             Type(By.Name("lastname"), contactData.Lastname);
+            Type(By.Name("address"), contactData.Address);
+            Type(By.Name("home"), contactData.Home);
+            Type(By.Name("mobile"), contactData.Mobile);
+            Type(By.Name("work"), contactData.Work);
             return this;
         }
 
