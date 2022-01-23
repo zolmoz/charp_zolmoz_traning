@@ -19,10 +19,58 @@ namespace adressbook_web_tests
         {
         }
 
+
+
+        public ContactHelper ViewContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"))[6].FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
+        public string GetContactInformationFromPersonView(int index)
+        {
+            applicationManager.Navigate.OpenHomePage();
+            ViewContactDetails(index);
+            string content = driver.FindElement(By.Id("content")).Text;
+            return content;
+        }
+
+        public string PersonViewForContact(ContactData contact)
+        {
+            string contactDetaiedView = EmptyValueCheck(contact.Firstname).Replace("\r\n", "") + " " +
+              EmptyValueCheck(contact.Lastname).Replace("\r\n", "") + "\r\n" +
+              EmptyValueCheck(contact.Address) + "\r\n" +
+              EmptyPhoneValueCheck("H", contact.Home) +
+              EmptyPhoneValueCheck("M", contact.Mobile) +
+              EmptyPhoneValueCheck("W", contact.Work) + "\r\n" +
+              EmptyValueCheck(contact.Email) +
+              EmptyValueCheck(contact.Email2) +
+              EmptyValueCheck(contact.Email3);
+
+
+            return contactDetaiedView.Trim();
+        }
+
+        private static string EmptyValueCheck(string value)
+        {
+            if (value == "" || value == null)
+                return "";
+
+            return value.Trim() + "\r\n";
+        }
+
+        private static string EmptyPhoneValueCheck(string prefix, string phone)
+        {
+            if (phone == "" || phone == null)
+                return "";
+
+            return prefix + ": " + phone.Trim() + "\r\n";
+        }
+
         public ContactData GetContactInformationFromTable(int index)
         {
             applicationManager.Navigate.OpenHomePage();
-            //InitContactModification(0);
+            
             IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
             string lastName = cells[1].Text;
             string firstName = cells[2].Text;
@@ -41,7 +89,7 @@ namespace adressbook_web_tests
         public ContactData GetContactInformationFromEditForm(int index)
         {
             applicationManager.Navigate.OpenHomePage();
-            InitContactModification(0);
+            InitContactModification(index);
             string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
