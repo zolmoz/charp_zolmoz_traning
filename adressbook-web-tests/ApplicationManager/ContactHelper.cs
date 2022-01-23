@@ -21,7 +21,21 @@ namespace adressbook_web_tests
 
         public ContactData GetContactInformationFromTable(int index)
         {
-            throw new NotImplementedException();
+            applicationManager.Navigate.OpenHomePage();
+            //InitContactModification(0);
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allMails = cells[4].Text;
+            string allPhones = cells[5].Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                AllPhones = Regex.Replace(allPhones, "[ \r\n]", ""),
+                AllMails = Regex.Replace(allMails, "[ \r\n]", "")
+            };
         }
 
         public ContactData GetContactInformationFromEditForm(int index)
@@ -34,15 +48,27 @@ namespace adressbook_web_tests
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email1 = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
-            new ContactData(firstname, lastname, address,homePhone,mobilePhone,workPhone);
+            return new ContactData(firstname, lastname)
+            {
+                Address = address,
+                Home = homePhone,
+                Mobile = mobilePhone,
+                Work = workPhone,
+                Email = email1,
+                Email2 = email2,
+                Email3 = email3
+            };
 
             
         }
 
         private List<ContactData> contactCache = null;
 
-
+      
         public int GetContactCount()
         {
             return driver.FindElements(By.Name("entry")).Count;
@@ -105,13 +131,13 @@ namespace adressbook_web_tests
             return this;
         }
 
-        public ContactHelper InitContactModification(int index)
+        public void InitContactModification(int index)
         {
 
             driver.FindElements(By.Name("entry"))[index]
                 .FindElements(By.TagName("td"))[7]
                 .FindElement(By.TagName("a")).Click();
-            return this;
+           
         }
 
         public ContactHelper ApproveEditContact()
@@ -163,6 +189,8 @@ namespace adressbook_web_tests
             contactCache = null;
             return this;
         }
+
+    
 
 
         public ContactHelper FullContactPage(ContactData contactData)

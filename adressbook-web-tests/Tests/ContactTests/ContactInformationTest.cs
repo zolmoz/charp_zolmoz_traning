@@ -19,8 +19,13 @@ namespace adressbook_web_tests
         {
            ContactData formTable = applicationManager.Contact.GetContactInformationFromTable(0);
            ContactData formForm = applicationManager.Contact.GetContactInformationFromEditForm(0);
-           
+
             //verification
+
+            Assert.AreEqual(formTable, formForm);
+            Assert.AreEqual(formTable.Address, formForm.Address);
+            Assert.AreEqual(formTable.AllPhones, formForm.AllPhones);
+            Assert.AreEqual(formTable.AllMails, formForm.AllMails);
 
         }
 
