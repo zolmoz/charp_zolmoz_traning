@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System.IO;
 
 
 namespace adressbook_web_tests
@@ -29,9 +30,25 @@ namespace adressbook_web_tests
             return group;
         }
 
+        
+        public static IEnumerable<GroupData> GroupDataFromFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            string[] lines = File.ReadAllLines(@"groups.csv");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                groups.Add(new GroupData(parts[0])
+                {
+                    Header = parts[1],
+                    Footer = parts[2]
+                });
+            }
+            return groups;
+        }
 
-       
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+
+        [Test, TestCaseSource("GroupDataFromFile")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = applicationManager.Groups.GetGroupList();
@@ -39,7 +56,8 @@ namespace adressbook_web_tests
             applicationManager.Groups.Create(group);
         }
 
-        [Test]
+        
+        /*[Test]
         public void BadNameGroupCreationTest()
         {
             GroupData group = new GroupData("a'a");
@@ -57,7 +75,7 @@ namespace adressbook_web_tests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-        }
+        }*/
 
     }
 }
