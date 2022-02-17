@@ -175,7 +175,7 @@ namespace adressbook_web_tests
             ShortContactPage(contact);
             SubmitContactCreation();
             applicationManager.Navigate.ReturnToHomepage();
-            
+
             return this;
         }
 

@@ -56,62 +56,64 @@ namespace adressbook_web_tests
          
             return Lastname.CompareTo(other.Lastname);
         }
-        public ContactData(string firstname)
-        {
-           Firstname = firstname;
-
-        }
-        public ContactData(string firstname, string lastname)
-        {
-            Firstname = firstname;
-            Lastname = lastname;
- 
-        }
-
-        public ContactData(string firstname, string lastname,string address, string home, string mobile, string work)
-        {
-            Firstname = firstname;
-            Lastname = lastname;
-            Address = address;
-            Home = home;
-            Mobile = mobile;
-            Work = work;
-
-        }
 
         public ContactData()
         {
         }
-        /* public ContactData(string firstname, string middlename, string lastname, string nickname, string title, string company, string address, string home, string mobile,
-                              string work, string fax, string  email, string email2, string email3, string homepage, string bday, string bmonth, string byear, string aday,
-                              string amonth, string ayear, string address2, string phone2, string notes )
-          {
-              Firstname = firstname;
-              Middlename = middlename;
-              Lastname = lastname;
-              Nickname = nickname;
-              Title = title;
-              Company = company;
-              Address = address;
-              Home = home;
-              Mobile = mobile;
-              Work = work;
-              Fax = fax;
-              Email = email;
-              Email2 = email2;
-              Email3 = email3;
-              Homepage = homepage;
-              Bday = bday;
-              Bmonth = bmonth;
-              Byear = byear;
-              Aday = aday;
-              Amonth = amonth;
-              Ayear = ayear;
-              Address2 = address2;
-              Phone2 = phone2;
-              Notes = notes;
+          public ContactData(string firstname)
+         {
+            Firstname = firstname;
 
-          }*/
+         }
+         public ContactData(string firstname, string lastname)
+         {
+             Firstname = firstname;
+             Lastname = lastname;
+
+         }
+        
+        public ContactData(string firstname, string lastname,string address, string home, string mobile, string work)
+         {
+             Firstname = firstname;
+             Lastname = lastname;
+             Address = address;
+             Home = home;
+             Mobile = mobile;
+             Work = work;
+
+         }
+
+
+         /* public ContactData(string firstname, string middlename, string lastname, string nickname, string title, string company, string address, string home, string mobile,
+                               string work, string fax, string  email, string email2, string email3, string homepage, string bday, string bmonth, string byear, string aday,
+                               string amonth, string ayear, string address2, string phone2, string notes )
+           {
+               Firstname = firstname;
+               Middlename = middlename;
+               Lastname = lastname;
+               Nickname = nickname;
+               Title = title;
+               Company = company;
+               Address = address;
+               Home = home;
+               Mobile = mobile;
+               Work = work;
+               Fax = fax;
+               Email = email;
+               Email2 = email2;
+               Email3 = email3;
+               Homepage = homepage;
+               Bday = bday;
+               Bmonth = bmonth;
+               Byear = byear;
+               Aday = aday;
+               Amonth = amonth;
+               Ayear = ayear;
+               Address2 = address2;
+               Phone2 = phone2;
+               Notes = notes;
+
+           }*/
 
         public string Firstname { get; set; }
       

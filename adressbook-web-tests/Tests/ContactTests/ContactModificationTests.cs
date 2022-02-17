@@ -17,15 +17,13 @@ namespace adressbook_web_tests
         public void ContactModificationTest()
         {
 
-            ContactData updatecontact = new ContactData("1","2", "main str 123",
-                "8888", "8888", "8888");
+            ContactData updatecontact = new ContactData("1","2");
            
 
             applicationManager.Navigate.OpenHomePage();
             if (!applicationManager.Contact.IsContactExist())
             {
-                applicationManager.Contact.Create(new ContactData ("Julli",  "Apple","owl str 258",
-                "11111", "2222", "3333"));
+                applicationManager.Contact.Create(new ContactData ("Julli",  "Apple"));
             }
 
             List<ContactData> oldContacts = applicationManager.Contact.GetContactList();

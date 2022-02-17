@@ -56,7 +56,7 @@ namespace adddressbook_test_data_generators1
                 StreamWriter writer = new StreamWriter(filename);
                 if (format == "csv")
                 {
-                    WriteGroupsToCcvFile(groups, writer);
+                    WriteGroupsToCsvFile(groups, writer);
                 }
                 else if (format == "xml")
                 {
@@ -75,7 +75,7 @@ namespace adddressbook_test_data_generators1
         }
 
 
-        static void WriteGroupsToCcvFile(List<GroupData> groups, StreamWriter writer)
+        static void WriteGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
         {
             foreach (GroupData group in groups)
             {
@@ -127,7 +127,13 @@ namespace adddressbook_test_data_generators1
                 contacts.Add(new ContactData(TestBase.GenerateRandomString(10), TestBase.GenerateRandomString(10))
                 {
                     Address = TestBase.GenerateRandomString(10),
-                    Company = TestBase.GenerateRandomString(100)
+                    Company = TestBase.GenerateRandomString(10),
+                    Middlename = TestBase.GenerateRandomString(10),
+                    Nickname = TestBase.GenerateRandomString(10),
+                    Title = TestBase.GenerateRandomString(10),
+                    Fax = TestBase.GenerateRandomString(10),
+                    Mobile = TestBase.GenerateRandomString(10),
+                    Home = TestBase.GenerateRandomString(10)
                 });
             }
 
@@ -141,6 +147,10 @@ namespace adddressbook_test_data_generators1
                 if (format == "xml")
                 {
                     WriteContactsToXmlFile(contacts, writer);
+                }
+                else if(format == "csv")
+                {
+                    WriteContactsToCsvFile(contacts, writer);
                 }
                 else if (format == "json")
                 {
@@ -178,7 +188,14 @@ namespace adddressbook_test_data_generators1
                 sheet.Cells[row, 1] = contact.Firstname;
                 sheet.Cells[row, 2] = contact.Lastname;
                 sheet.Cells[row, 3] = contact.Company;
-                sheet.Cells[row, 3] = contact.Address;
+                sheet.Cells[row, 4] = contact.Address;
+                sheet.Cells[row, 5] = contact.Middlename;
+                sheet.Cells[row, 6] = contact.Nickname;
+                sheet.Cells[row, 7] = contact.Title;
+                sheet.Cells[row, 8] = contact.Fax;
+                sheet.Cells[row, 9] = contact.Mobile;
+                sheet.Cells[row, 10] = contact.Home;
+                row++;
                 row++;
             }
             string fullpath = Path.Combine(Directory.GetCurrentDirectory(), filename);
@@ -189,6 +206,15 @@ namespace adddressbook_test_data_generators1
             app.Quit();
 
 
+        }
+        static void WriteContactsToCsvFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            foreach (ContactData contact in contacts)
+            {
+                writer.WriteLine(String.Format("${0}, ${1}, ${2}, ${3}, ${4}, ${5}, ${6}, ${7}, ${8}, ${9}",
+                    contact.Firstname, contact.Lastname, contact.Middlename, contact.Nickname, contact.Title,
+                    contact.Company, contact.Address, contact.Fax, contact.Mobile, contact.Home));
+            }
         }
     }
 }
