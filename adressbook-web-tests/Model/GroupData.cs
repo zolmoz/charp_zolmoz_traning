@@ -55,6 +55,10 @@ namespace adressbook_web_tests
             Footer = footer;
         }
 
+        public GroupData()
+        {
+        }
+
         public string Name { get; set; }
       
         public string Header { get; set; }
