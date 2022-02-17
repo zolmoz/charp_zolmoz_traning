@@ -4,9 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 
 namespace adressbook_web_tests
 {
+
+    [Table(Name = "addressbook")]
+
+
+
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
@@ -84,89 +90,49 @@ namespace adressbook_web_tests
          }
 
 
-         /* public ContactData(string firstname, string middlename, string lastname, string nickname, string title, string company, string address, string home, string mobile,
-                               string work, string fax, string  email, string email2, string email3, string homepage, string bday, string bmonth, string byear, string aday,
-                               string amonth, string ayear, string address2, string phone2, string notes )
-           {
-               Firstname = firstname;
-               Middlename = middlename;
-               Lastname = lastname;
-               Nickname = nickname;
-               Title = title;
-               Company = company;
-               Address = address;
-               Home = home;
-               Mobile = mobile;
-               Work = work;
-               Fax = fax;
-               Email = email;
-               Email2 = email2;
-               Email3 = email3;
-               Homepage = homepage;
-               Bday = bday;
-               Bmonth = bmonth;
-               Byear = byear;
-               Aday = aday;
-               Amonth = amonth;
-               Ayear = ayear;
-               Address2 = address2;
-               Phone2 = phone2;
-               Notes = notes;
-
-           }*/
-
+        [Column(Name = "firstname")]
         public string Firstname { get; set; }
-      
 
+        [Column(Name = "middlename")]
         public string Middlename { get; set; }
 
-
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
 
-
+        [Column(Name = "nickname")]
         public string Nickname { get; set; }
-
+       
+        [Column(Name = "title")]
         public string Title { get; set; }
-
+        
+        [Column(Name = "company")]
         public string Company { get; set; }
-
+        
+        [Column(Name = "address")]
         public string Address { get; set; }
-
+        
+        [Column(Name = "home")]
         public string Home { get; set; }
-
+        
+        [Column(Name = "mobile")]
         public string Mobile { get; set; }
 
+        [Column(Name = "work")]
         public string Work { get; set; }
-
+       
+        [Column(Name = "fax")]
         public string Fax { get; set; }
 
+        [Column(Name = "email")]
         public string Email { get; set; }
 
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
 
-
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
-
-        public string Homepage { get; set; }
-
-        public string Bday { get; set; }
-
-        public string Bmonth { get; set; }
-
-        public string Byear { get; set; }
-
-        public string Aday { get; set; }
-
-        public string Amonth { get; set; }
-
-        public string Ayear { get; set; }
-
-        public string Address2 { get; set; }
-
-        public string Phone2 { get; set; }
-
-        public string Notes { get; set; }
-
+   
+        [Column(Name = "id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
         public string AllPhones
@@ -223,6 +189,14 @@ namespace adressbook_web_tests
                 return "";
             }
             return Regex.Replace(email, "[ \r\n]", "");
+        }
+
+        public static List<ContactData> GetAllContacts()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts select c).ToList();
+            }
         }
     }
 }

@@ -154,7 +154,17 @@ namespace adressbook_web_tests
             return this;
         }
 
-        
+
+        public ContactHelper ModifyById(ContactData newContactData)
+        {
+            applicationManager.Navigate.OpenHomePage();
+            InitContactModificationById(newContactData.Id);
+            FullContactPage(newContactData);
+            ApproveEditContact();
+            applicationManager.Navigate.ReturnToHomepage();
+            return this;
+        }
+
 
         public ContactHelper Remove(int p)
         {
@@ -166,6 +176,30 @@ namespace adressbook_web_tests
             return this;
         }
 
+
+        public ContactHelper RemoveById(string contactId)
+        {
+            applicationManager.Navigate.OpenHomePage();
+            SelectContactById(contactId);
+            RemoveContact();
+            ApproveRemoveContact();
+            applicationManager.Navigate.OpenHomePage();
+            return this;
+        }
+
+        public ContactHelper InitContactModificationById(string id)
+        {
+            driver.FindElement(By.XPath("//*[@name='entry']//*[@id='" + id + "']/parent::*/parent::*"))
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContactById(string id)
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']//input[@type='checkbox'][@id=" + id + "]")).Click();
+            return this;
+        }
 
 
         public ContactHelper Create(ContactData contact)
@@ -258,23 +292,7 @@ namespace adressbook_web_tests
             Type(By.Name("email"), contactData.Email);
             Type(By.Name("email2"), contactData.Email2);
             Type(By.Name("email3"), contactData.Email3);
-            Type(By.Name("homepage"), contactData.Homepage);
-
-            driver.FindElement(By.Name("bday")).Click();
-            new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contactData.Bday);
-            driver.FindElement(By.Name("bmonth")).Click();
-            new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByText(contactData.Bmonth);
-            Type(By.Name("byear"), contactData.Byear);
-
-            driver.FindElement(By.Name("aday")).Click();
-            new SelectElement(driver.FindElement(By.Name("aday"))).SelectByText(contactData.Aday);
-            driver.FindElement(By.Name("amonth")).Click();
-            new SelectElement(driver.FindElement(By.Name("amonth"))).SelectByText(contactData.Amonth);
-            Type(By.Name("ayear"), contactData.Ayear);
-
-            Type(By.Name("address2"), contactData.Address2);
-            Type(By.Name("phone2"), contactData.Phone2);
-            Type(By.Name("notes"), contactData.Notes);
+           
 
             return this;
         }

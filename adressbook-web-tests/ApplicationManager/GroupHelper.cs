@@ -151,6 +151,33 @@ namespace adressbook_web_tests
             return this;
         }
 
+        public GroupHelper RemoveById(GroupData group)
+        {
+            applicationManager.Navigate.GoToGroupsPage();
+            SelectGroupById(group.Id);
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper ModifyById(GroupData group, GroupData newData)
+        {
+            applicationManager.Navigate.GoToGroupsPage();
+            SelectGroupById(group.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+
+
+        public GroupHelper SelectGroupById(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "' ])")).Click();
+            return this;
+        }
 
     }
 }

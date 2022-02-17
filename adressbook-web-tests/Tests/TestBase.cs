@@ -12,8 +12,8 @@ namespace adressbook_web_tests
 {
     public class TestBase
     {
-
-         protected ApplicationManager applicationManager;
+        public static bool PERFORM_LONG_UI_CHECKS = false;
+        protected ApplicationManager applicationManager;
 
 
         [SetUp]

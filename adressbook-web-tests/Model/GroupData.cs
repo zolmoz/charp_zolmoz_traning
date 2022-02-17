@@ -3,12 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace adressbook_web_tests
 {
+   
+
+    [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
+        public GroupData()
+        {
+        }
+        public GroupData(string name)
+        {
+            Name = name;
+        }
 
+        public GroupData(string name, string header, string footer)
+        {
+            Name = name;
+            Header = header;
+            Footer = footer;
+        }
+
+        [Column(Name = "group_name")]
+        public string Name { get; set; }
+
+        [Column(Name = "group_header")]
+        public string Header { get; set; }
+
+        [Column(Name = "group_footer")]
+        public string Footer { get; set; }
+
+        [Column(Name = "group_id"), PrimaryKey, Identity]
+        public string Id { get; set; }
 
         public bool Equals(GroupData other)
         {
@@ -42,31 +71,15 @@ namespace adressbook_web_tests
             return Name.CompareTo(other.Name);
         }
 
-
-        public GroupData(string name)
+        public static List<GroupData> GetAllGroups()
         {
-            Name = name;
-         
-        }
-        public GroupData(string name, string header, string footer)
-        {
-            Name = name;
-            Header = header;
-            Footer = footer;
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups select g).ToList();
+            }
         }
 
-        public GroupData()
-        {
-        }
+        
 
-        public string Name { get; set; }
-      
-        public string Header { get; set; }
-
-        public string Footer { get; set; }
-
-        public string Id { get; set; }
-
-       
     }
 }

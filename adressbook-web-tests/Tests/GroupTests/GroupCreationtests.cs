@@ -9,12 +9,12 @@ using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
-
+using System.Linq;
 
 namespace adressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
 
         
@@ -88,10 +88,10 @@ namespace adressbook_web_tests
         [Test, TestCaseSource("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
-            List<GroupData> oldGroups = applicationManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAllGroups();
             applicationManager.Groups.Create(group);
             Assert.AreEqual(oldGroups.Count + 1, applicationManager.Groups.GetGroupCount());
-            List<GroupData> newGroups = applicationManager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAllGroups();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -119,7 +119,19 @@ namespace adressbook_web_tests
             Assert.AreEqual(oldGroups, newGroups);
         }
 
-     
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = applicationManager.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDb = GroupData.GetAllGroups();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+        }
 
     }
 }
