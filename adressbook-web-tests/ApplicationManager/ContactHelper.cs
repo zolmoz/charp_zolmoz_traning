@@ -102,6 +102,7 @@ namespace adressbook_web_tests
             return contactDetaiedView.Trim();
         }
 
+
         private static string EmptyValueCheck(string value)
         {
             if (value == "" || value == null)
@@ -132,8 +133,8 @@ namespace adressbook_web_tests
             return new ContactData(firstName, lastName)
             {
                 Address = address,
-                AllPhones = Regex.Replace(allPhones, "[ \r\n]", ""),
-                AllMails = Regex.Replace(allMails, "[ \r\n]", "")
+                AllPhones = Regex.Replace(allPhones, "", ""),
+                AllMails = Regex.Replace(allMails, "", "")
             };
         }
 
