@@ -2,88 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras;
-using SeleniumExtras.WaitHelpers;
-
+using OpenQA.Selenium.Interactions;
 
 namespace mantis_tests
 {
     public class LoginHelper : HelperBase
     {
-        private string baseUrl;
-        private string loginBtnXPath = "//input[@type='submit']";
-
-        private AccountData currAccount;
-        public AccountData CurrAccount
+        public LoginHelper(ApplicationManager manager) : base(manager)
         {
-            get
-            {
-                return currAccount;
-            }
+
         }
-
-
-        public LoginHelper(ApplicationManager appmanager, string baseUrl)
-            : base(appmanager)
-        {
-            this.baseUrl = baseUrl;
-            currAccount = new AccountData();
-        }
-
-
         public void Login(AccountData account)
         {
             if (IsLoggedIn())
             {
-                if (IsLoggedInAs(account))
+                if (IsLoggedIn(account))
                 {
                     return;
                 }
-
                 Logout();
             }
 
             Type(By.Id("username"), account.Name);
-            driver.FindElement(By.XPath(loginBtnXPath)).Click();
-
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(4));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id("password")));
+            driver.FindElement(By.XPath("//input[@value='Вход']")).Click();
+           
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.Name("password")).Count() > 0);
 
             Type(By.Id("password"), account.Password);
-            driver.FindElement(By.XPath(loginBtnXPath)).Click();
-
-            currAccount = account;
+            driver.FindElement(By.CssSelector("input[type='submit']")).Click();
         }
-
 
         public bool IsLoggedIn()
         {
             return IsElementPresent(By.CssSelector("span.user-info"));
         }
-
-
-        public bool IsLoggedInAs(AccountData account)
+        public bool IsLoggedIn(AccountData account)
         {
             return IsLoggedIn()
-                && GetLoggedUsername() == account.Name;
+                && GetLoggedUserName() == account.Name;
+        }
+
+        public string GetLoggedUserName()
+        {
+            string text = driver.FindElement(By.CssSelector("span.user-info")).Text;
+            return text;
         }
 
         public void Logout()
         {
             if (IsLoggedIn())
             {
-                driver.Navigate().GoToUrl(baseUrl + "/logout_page.php");
-                currAccount = new AccountData();
+                driver.FindElement(By.CssSelector("span.user-info")).Click();
+                driver.FindElement(By.LinkText("Выход")).Click();
             }
-        }
-
-
-        public string GetLoggedUsername()
-        {
-            return driver.FindElement(By.CssSelector("span.user-info")).Text;
         }
     }
 }

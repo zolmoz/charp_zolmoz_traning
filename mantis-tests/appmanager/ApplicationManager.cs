@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace mantis_tests
 {
@@ -14,29 +14,29 @@ namespace mantis_tests
     {
         protected IWebDriver driver;
         protected string baseURL;
-        public RegistrationHelper Registration { get; }
+        protected LoginHelper loginHelper;
+
+        public RegistrationHelper Registration { get; set; }
         public FtpHelper Ftp { get; set; }
+        public LoginHelper Login { get; set; }
+        public NavigationHelper Navigator { get; set; }
+        public ProjectHelper Project { get; set; }
+
+     
         public JamesHelper James { get; set; }
         public MailHelper Mail { get; set; }
-
-        public LoginHelper Auth { get; set; }
-        public ProjectHelper Project { get; set; }
-        public NavigationHelper Navigator { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager()
         {
             driver = new FirefoxDriver();
-            baseURL = "http://localhost/addressbook";
+            baseURL = "http://localhost";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
-            James = new JamesHelper(this);
-            Mail = new MailHelper(this);
-
-            Auth = new LoginHelper(this, baseURL);
-            Project = new ProjectHelper(this);
+            Login = new LoginHelper(this);
             Navigator = new NavigationHelper(this, baseURL);
+            Project = new ProjectHelper(this);
         }
 
         ~ApplicationManager()
@@ -56,16 +56,23 @@ namespace mantis_tests
             if (!app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.Driver.Url = "http://localhost/mantisbt-2.25.2/login_page.php";
+                newInstance.driver.Url = "http://localhost/mantisbt-2.25.2/login_page.php/";
                 app.Value = newInstance;
             }
+
             return app.Value;
         }
+
         public IWebDriver Driver
+        {
+            get { return driver; }
+        }
+
+        public LoginHelper Auth
         {
             get
             {
-                return driver;
+                return Login;
             }
         }
     }
