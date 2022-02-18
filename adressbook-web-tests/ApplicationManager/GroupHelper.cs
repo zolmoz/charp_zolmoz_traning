@@ -18,6 +18,15 @@ namespace adressbook_web_tests
 
         }
 
+        public void CreateGroupIfNotExist()
+        {
+            if (GroupData.GetAllGroups().Count == 0)
+            {
+                GroupData group = new GroupData("Group");
+                Create(group);
+            }
+        }
+
         private List<GroupData> groupCache = null;
 
 

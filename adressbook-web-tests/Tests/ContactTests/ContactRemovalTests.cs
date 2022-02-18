@@ -17,10 +17,9 @@ namespace adressbook_web_tests
         public void ContactRemovalTest()
         {
             applicationManager.Navigate.OpenHomePage();
-            if (!applicationManager.Contact.IsContactExist())
-            {
-                applicationManager.Contact.Create(new ContactData("Julli", "Apple"));
-            }
+
+            applicationManager.Contact.CreateContactIfNotExist();
+
             List<ContactData> oldContacts = applicationManager.Contact.GetContactList();
             ContactData toBeRemoved = oldContacts[0];
             applicationManager.Contact.Remove(0);
@@ -38,6 +37,8 @@ namespace adressbook_web_tests
         public void ContactRemovalTestDB()
         {
             {
+                applicationManager.Contact.CreateContactIfNotExist();
+
                 List<ContactData> oldContacts = ContactData.GetAllContacts();
                 System.Console.Out.Write("Before : " + oldContacts.Count);
                 ContactData toBeRemoved = oldContacts[0];

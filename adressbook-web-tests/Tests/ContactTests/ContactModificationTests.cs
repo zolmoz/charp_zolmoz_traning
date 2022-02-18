@@ -46,6 +46,7 @@ namespace adressbook_web_tests
         [Test]
         public void ContactModificationTestDB()
         {
+            applicationManager.Contact.CreateContactIfNotExist();
             ContactData newContactData = new ContactData("Julli", "Orange");
             List<ContactData> oldContacts = ContactData.GetAllContacts();
             newContactData.Id = oldContacts[0].Id;

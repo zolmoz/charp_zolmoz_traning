@@ -19,7 +19,15 @@ namespace adressbook_web_tests
         {
         }
 
-
+        public void CreateContactIfNotExist()
+        {
+            if (ContactData.GetAllContacts().Count == 0)
+            {
+                ContactData contact = new ContactData("Anna", "Bloom");
+                Create(contact);
+            }
+            
+        }
 
         public void AddContactToGroup(ContactData contact, GroupData group)
         {

@@ -48,11 +48,8 @@ namespace adressbook_web_tests
         public void GroupModificationTestDB()
         {
             {
-                if (!applicationManager.Groups.IsGroupExist())
-                {
-                    GroupData group = new GroupData("names");
-                    applicationManager.Groups.Create(group);
-                }
+                applicationManager.Groups.CreateGroupIfNotExist();
+
                 GroupData newGroupData = new GroupData("New name");
                 List<GroupData> oldGroups = GroupData.GetAllGroups();
                 GroupData toBeModified = oldGroups[0];

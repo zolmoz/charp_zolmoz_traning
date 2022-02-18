@@ -36,6 +36,8 @@ namespace adressbook_web_tests
         [Test]
         public void GroupRemovalTestDB()
         {
+            applicationManager.Groups.CreateGroupIfNotExist();
+
             List<GroupData> oldGroups = GroupData.GetAllGroups();
             GroupData toBeRemoved = oldGroups[0];
             applicationManager.Groups.RemoveById(toBeRemoved);
