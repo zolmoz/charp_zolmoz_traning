@@ -141,8 +141,8 @@ namespace adressbook_web_tests
             return new ContactData(firstName, lastName)
             {
                 Address = address,
-                AllPhones = Regex.Replace(allPhones, "", ""),
-                AllMails = Regex.Replace(allMails, "", "")
+                AllPhones = allPhones, //Regex.Replace(allPhones, "[ \r\n]", ""),
+                AllMails = allMails //Regex.Replace(allMails, "[ \r\n]", "")
             };
         }
 

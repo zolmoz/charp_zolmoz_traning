@@ -22,7 +22,7 @@ namespace adressbook_web_tests
 
             if (ContactData.GetAllContacts().Count - oldList.Count == 0)
             {
-                ContactData newcontact = new ContactData("Alex", "Petrov");
+                ContactData newcontact = new ContactData("Ivi", "Poison");
                 applicationManager.Contact.Create(newcontact);
             }
 
