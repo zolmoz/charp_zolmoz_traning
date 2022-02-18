@@ -21,8 +21,9 @@ namespace mantis_tests
         public LoginHelper Login { get; set; }
         public NavigationHelper Navigator { get; set; }
         public ProjectHelper Project { get; set; }
+        public APIHelper API { get; set; }
 
-     
+
         public JamesHelper James { get; set; }
         public MailHelper Mail { get; set; }
 
@@ -37,6 +38,7 @@ namespace mantis_tests
             Login = new LoginHelper(this);
             Navigator = new NavigationHelper(this, baseURL);
             Project = new ProjectHelper(this);
+
         }
 
         ~ApplicationManager()

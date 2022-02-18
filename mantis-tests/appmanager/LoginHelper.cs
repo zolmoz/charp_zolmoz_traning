@@ -11,9 +11,19 @@ namespace mantis_tests
 {
     public class LoginHelper : HelperBase
     {
+
+        private AccountData currAccount;
+        public AccountData CurrAccount
+        {
+            get
+            {
+                return currAccount;
+            }
+        }
+
         public LoginHelper(ApplicationManager manager) : base(manager)
         {
-
+            currAccount = new AccountData();
         }
         public void Login(AccountData account)
         {
@@ -34,6 +44,8 @@ namespace mantis_tests
 
             Type(By.Id("password"), account.Password);
             driver.FindElement(By.CssSelector("input[type='submit']")).Click();
+
+            currAccount = account;
         }
 
         public bool IsLoggedIn()
@@ -58,6 +70,7 @@ namespace mantis_tests
             {
                 driver.FindElement(By.CssSelector("span.user-info")).Click();
                 driver.FindElement(By.LinkText("Выход")).Click();
+                currAccount = new AccountData();
             }
         }
     }

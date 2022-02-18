@@ -14,9 +14,6 @@ namespace mantis_tests
 
         public static Random rndGenerator = new Random();
 
-        public const int GENERAL = 0;
-        public const int PHONE = 1;
-        public const int EMAIL = 2;
 
         [OneTimeSetUp]
         public void SetupApplicationManager()
